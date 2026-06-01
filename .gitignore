@@ -1,0 +1,15 @@
+# Ignorar archivos temporales o de configuración del sistema (Linux, Windows, Mac)
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Ignorar las subidas de archivos reales de los usuarios (fotos, pdfs que pruebes)
+assets/uploads/*
+!assets/uploads/index.php
+
+# IGNORAR BASES DE DATOS SUCIAS
+# Bloqueamos cualquier archivo SQL que exportes por error...
+*.sql
+# ...PERO permitimos específicamente el limpio para que tu compañero lo pueda usar
+!crm_limpio.sql

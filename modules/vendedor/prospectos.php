@@ -93,7 +93,7 @@ $nombres_etapas = [
 <div class="modal fade" id="modalNuevoProspecto" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="prospectos_action.php" method="POST">
+      <form action="prospectos_action.php" method="POST" id="formProspecto">
           <div class="modal-header text-bg-primary">
             <h5 class="modal-title">Registrar Nuevo Prospecto</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -101,28 +101,83 @@ $nombres_etapas = [
           <div class="modal-body">
             <input type="hidden" name="accion" value="crear_etapa_1">
             <div class="alert alert-info">
-                <i class="bi bi-info-circle"></i> En esta etapa inicial solo requerimos los datos básicos del cliente.
+                <i class="bi bi-info-circle"></i> En esta etapa inicial solo requerimos los datos básicos del cliente[cite: 16].
             </div>
+            
             <div class="mb-3">
-                <label class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" name="nombre" required>
+                <label class="form-label fw-bold">Nombre Completo *</label>
+                <input type="text" class="form-control" name="nombre" id="inputNombre" required maxlength="100" placeholder="Ej: Juan Pérez">
+                <small class="text-muted">Solo se permiten letras y espacios.</small>
             </div>
+            
             <div class="mb-3">
-                <label class="form-label">Comuna</label>
-                <input type="text" class="form-control" name="comuna" required>
+                <label class="form-label fw-bold">Comuna *</label>
+                <select class="form-select" name="comuna" required>
+                    <option value="" disabled selected>Seleccione una comuna...</option>
+                    <option value="Cerrillos">Cerrillos</option>
+                    <option value="Estación Central">Estación Central</option>
+                    <option value="La Florida">La Florida</option>
+                    <option value="Maipú">Maipú</option>
+                    <option value="Providencia">Providencia</option>
+                    <option value="Puente Alto">Puente Alto</option>
+                    <option value="Quilicura">Quilicura</option>
+                    <option value="Renca">Renca</option>
+                    <option value="Santiago">Santiago</option>
+                    </select>
             </div>
+            
             <div class="mb-3">
-                <label class="form-label">Número de Teléfono</label>
-                <input type="text" class="form-control" name="telefono" required placeholder="+56 9...">
+                <label class="form-label fw-bold">Número de Teléfono *</label>
+                <div class="input-group">
+                    <span class="input-group-text fw-bold text-bg-light" id="prefijo-cl">+56 9</span>
+                    <input type="text" class="form-control" name="telefono" id="inputTelefono" required maxlength="8" minlength="8" placeholder="12345678" aria-describedby="prefijo-cl">
+                </div>
+                <small class="text-danger d-none" id="errorTelefono">Debe contener exactamente 8 dígitos.</small>
             </div>
+            
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar Prospecto</button>
+            <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar Prospecto</button>
           </div>
       </form>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputNombre = document.getElementById('inputNombre');
+    const inputTelefono = document.getElementById('inputTelefono');
+    const formProspecto = document.getElementById('formProspecto');
+    const errorTelefono = document.getElementById('errorTelefono');
+
+    // 1. Escudo para el Nombre: Reemplaza en vivo cualquier cosa que no sea letra o espacio
+    inputNombre.addEventListener('input', function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    });
+
+    // 2. Escudo para el Teléfono: Elimina letras en vivo
+    inputTelefono.addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    // 3. Escudo final al enviar el formulario (Evita que el botón funcione si hay menos de 8 números)
+    formProspecto.addEventListener('submit', function (e) {
+        if (inputTelefono.value.length < 8) {
+            e.preventDefault(); // Detiene el envío
+            inputTelefono.classList.add('is-invalid');
+            errorTelefono.classList.remove('d-none');
+        } else {
+            inputTelefono.classList.remove('is-invalid');
+            errorTelefono.classList.add('d-none');
+            
+            // Le agregamos el +569 al valor antes de que viaje a PHP
+            // para que en la BD quede guardado completo
+            inputTelefono.value = "+569" + inputTelefono.value; 
+        }
+    });
+});
+</script>
 
 <?php require_once '../../includes/footer.php'; ?>
