@@ -81,62 +81,28 @@ if (!isset($_SESSION['rol'])) {
         }
     </style>
 </head>
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<body class="layout-fixed sidebar-collapse sidebar-mini bg-body-tertiary">
 <div class="app-wrapper">
 
-    <nav class="app-header navbar navbar-expand flex-column p-0 udp-main-header" data-bs-theme="dark">
-        
-        <div class="udp-top-bar d-none d-md-flex shadow-sm">
-            <div>
-                <i class="bi bi-clock me-1"></i> Atención Sistema Interno 24/7
-            </div>
-            <div>
-                <i class="bi bi-telephone me-1"></i> Soporte TI: +569 9999 9999
-                <span class="ms-3 border-start border-secondary ps-3">
-                    <i class="bi bi-instagram fs-6 mx-1"></i>
-                    <i class="bi bi-twitter-x fs-6 mx-1"></i>
-                    <i class="bi bi-facebook fs-6 mx-1"></i>
+    <nav class="main-header navbar navbar-expand" style="background-color: #f4f9f6; border-bottom: 2px solid #b8dacb;">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand text-dark fw-bold d-flex align-items-center">
+            <i class="bi bi-tree-fill me-2" style="color: #63a388; font-size: 1.5rem;"></i>
+            <span style="color: #2c4c3b; letter-spacing: 0.5px;">Senderos de Paz</span>
+        </a>
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <span class="nav-link text-dark fw-medium">
+                    <i class="bi bi-person-circle me-1" style="color: #63a388;"></i> 
+                    Hola, <?= htmlspecialchars($_SESSION['nombre'] ?? 'Usuario') ?>
                 </span>
-            </div>
-        </div>
-
-        <div class="w-100 container-fluid py-2">
-            <ul class="navbar-nav align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link text-white" data-lte-toggle="sidebar" href="#" role="button">
-                        <i class="bi bi-list fs-4"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-sm-flex align-items-center ms-2">
-                    <i class="bi bi-shield-shaded fs-2 text-white"></i>
-                    <div class="udp-brand-text">
-                        <strong class="fs-5">Funeraria</strong><br>
-                        <span>UDP</span>
-                    </div>
-                </li>
-            </ul>
-
-            <div class="udp-nav-links d-none d-lg-flex">
-                <a href="/DWYM-php/modules/vendedor/dashboard.php" class="udp-nav-item active">VISTA GENERAL</a>
-                <a href="/DWYM-php/modules/vendedor/prospectos.php" class="udp-nav-item">DIRECTORIO CLIENTES</a>
-                <a href="#" class="udp-nav-item">CATÁLOGO RÁPIDO</a>
-                <a href="#" class="udp-nav-item">SOPORTE TI</a>
-            </div>
-
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown user-menu">
-                    <a href="#" class="nav-link text-white">
-                        <i class="bi bi-person-circle fs-5 me-2"></i>
-                        <span class="d-none d-md-inline fw-bold">
-                            <?= htmlspecialchars($_SESSION['nombre'] ?? $_SESSION['email'] ?? 'Usuario') ?>
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/DWYM-php/modules/auth/logout.php" class="nav-link text-danger" title="Cerrar Sesión">
-                        <i class="bi bi-box-arrow-right fs-5"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+            </li>
+            <li class="nav-item">
+                <a href="/DWYM-php/logout.php" class="nav-link text-danger fw-bold">
+                    <i class="bi bi-box-arrow-right"></i> Salir
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

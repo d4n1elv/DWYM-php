@@ -16,11 +16,24 @@ $accion = $_POST['accion'] ?? '';
 // BLOQUE 1: CREAR NUEVO ÍTEM
 // ==========================================
 if ($accion === 'crear') {
-    $nombre = $_POST['nombre'];
-    $tipo = $_POST['tipo'];
-    $desc_corta = $_POST['desc_corta'];
-    $desc_larga = $_POST['desc_larga'];
-    $precio = $_POST['precio'];
+    // 1. APLICAMOS LA GUILLOTINA (TRIM) Y EL SALVAVIDAS (?? '')
+        $nombre = trim($_POST['nombre'] ?? '');
+        $desc_corta = trim($_POST['desc_corta'] ?? '');
+        $desc_larga = trim($_POST['desc_larga'] ?? '');
+        $tipo = trim($_POST['tipo'] ?? '');
+        $precio = trim($_POST['precio'] ?? '');
+
+        // 2. BARRERA DE SEGURIDAD (ESPACIOS EN BLANCO)
+        if (empty($nombre)) {
+            header('Location: catalogo.php?error=datos_vacios');
+            exit;
+        }
+
+        // 3. BARRERA DE SEGURIDAD (PRECIO REALISTA Y NUMÉRICO)
+        if (!is_numeric($precio) || $precio <= 0 || $precio > 99000000) {
+            header('Location: catalogo.php?error=precio_invalido');
+            exit;
+        }
 
     try {
         $db->beginTransaction();
@@ -76,12 +89,25 @@ elseif ($accion === 'toggle_estado') {
 // BLOQUE 3: EDITAR ÍTEM Y ACTUALIZAR PRECIO
 // ==========================================
 elseif ($accion === 'editar') {
-    $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
-    $tipo = $_POST['tipo'];
-    $desc_corta = $_POST['desc_corta'];
-    $precio_nuevo = $_POST['precio_nuevo'];
-    $precio_actual_db = $_POST['precio_actual_db'];
+    // 1. APLICAMOS LA GUILLOTINA (TRIM) Y EL SALVAVIDAS (?? '')
+    $id = trim($_POST['id'] ?? '');
+    $nombre = trim($_POST['nombre'] ?? '');
+    $tipo = trim($_POST['tipo'] ?? '');
+    $desc_corta = trim($_POST['desc_corta'] ?? '');
+    $precio_nuevo = trim($_POST['precio_nuevo'] ?? '');
+    $precio_actual_db = trim($_POST['precio_actual_db'] ?? '');
+
+    // 2. BARRERA DE SEGURIDAD (ESPACIOS EN BLANCO)
+    if (empty($nombre)) {
+        header('Location: catalogo.php?error=datos_vacios');
+        exit;
+    }
+
+    // 3. BARRERA DE SEGURIDAD (PRECIO REALISTA Y NUMÉRICO)
+    if (!is_numeric($precio_nuevo) || $precio_nuevo <= 0 || $precio_nuevo > 99000000) {
+        header('Location: catalogo.php?error=precio_invalido');
+        exit;
+    }
 
     try {
         $db->beginTransaction();

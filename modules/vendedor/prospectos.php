@@ -1,10 +1,12 @@
 <?php
 // modules/vendedor/prospectos.php
 require_once '../../config/database.php';
-require_once '../../includes/header.php';
-require_once '../../includes/sidebar.php';
 
-if ($_SESSION['rol'] !== 'Vendedor') {
+// Verificación de sesión y permisos
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'Vendedor') {
     header('Location: /DWYM-php/index.php');
     exit;
 }
@@ -31,6 +33,10 @@ $nombres_etapas = [
     3 => '3. Cita',
     4 => '4. Venta Cerrada'
 ];
+
+// Recién aquí empezamos a pintar la pantalla
+require_once '../../includes/header.php';
+require_once '../../includes/sidebar.php';
 ?>
 
 <main class="app-main">
@@ -45,6 +51,15 @@ $nombres_etapas = [
     
     <div class="app-content">
         <div class="container-fluid">
+            
+            <?php if (isset($_GET['error']) && $_GET['error'] === 'datos_vacios'): ?>
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>¡Atención!</strong> No puedes dejar el nombre o teléfono vacíos ni rellenarlos solo con espacios.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
             <div class="card shadow-sm">
                 <div class="card-body">
                     <table class="table table-hover align-middle">
@@ -101,7 +116,7 @@ $nombres_etapas = [
           <div class="modal-body">
             <input type="hidden" name="accion" value="crear_etapa_1">
             <div class="alert alert-info">
-                <i class="bi bi-info-circle"></i> En esta etapa inicial solo requerimos los datos básicos del cliente[cite: 16].
+                <i class="bi bi-info-circle"></i> En esta etapa inicial solo requerimos los datos básicos del cliente.
             </div>
             
             <div class="mb-3">

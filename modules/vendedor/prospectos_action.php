@@ -17,6 +17,15 @@ if ($accion === 'crear_etapa_1') {
     $comuna = trim($_POST['comuna']);
     $telefono = trim($_POST['telefono']);
 
+    // ==========================================
+    // BARRERA DE SEGURIDAD
+    // ==========================================
+    if (empty($nombre) || empty($telefono)) {
+        // Si el nombre o teléfono quedaron vacíos tras el trim, cortamos todo
+        header('Location: prospectos.php?error=datos_vacios');
+        exit;
+    }
+
     try {
         $query = "INSERT INTO prospectos (vendedor_id, etapa, nombre, comuna, telefono) 
                   VALUES (:vendedor_id, 1, :nombre, :comuna, :telefono)";
@@ -27,12 +36,11 @@ if ($accion === 'crear_etapa_1') {
             ':comuna' => $comuna,
             ':telefono' => $telefono
         ]);
-        
     } catch (Exception $e) {
         die("Error al registrar prospecto: " . $e->getMessage());
     }
 
     header('Location: prospectos.php');
     exit;
-}
+} // <-- ESTA ES LA LLAVE QUE PHP ESTABA LLORANDO PORQUE FALTABA
 ?>

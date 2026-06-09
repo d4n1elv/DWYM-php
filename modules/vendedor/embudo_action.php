@@ -17,9 +17,13 @@ $vendedor_id = 2; // Simulado para Juan Vendedor
 // DE ETAPA 1 A ETAPA 2 (Agendar Cita)
 // ==========================================
 if ($accion === 'avanzar_etapa_2') {
-    $prospecto_id = filter_var($_POST['prospecto_id'], FILTER_VALIDATE_INT);
-    $correo = filter_var(trim($_POST['correo']), FILTER_VALIDATE_EMAIL);
-    $fecha_hora_cita = trim($_POST['fecha_hora_cita']);
+    $prospecto_id = filter_var($_POST['prospecto_id'] ?? '', FILTER_VALIDATE_INT);
+        $correo = filter_var(trim($_POST['correo'] ?? ''), FILTER_VALIDATE_EMAIL);
+        $fecha_hora_cita = trim($_POST['fecha_hora_cita'] ?? '');
+
+        if (!$prospecto_id || empty($correo) || empty($fecha_hora_cita)) {
+            die("Error de validación: Faltan datos o el correo no es válido.");
+        }
 
     if (!$prospecto_id || !$correo || empty($fecha_hora_cita)) {
         die("Error de validación de seguridad.");
@@ -58,14 +62,14 @@ if ($accion === 'avanzar_etapa_2') {
 // DE ETAPA 2 A ETAPA 3 (Cita Realizada)
 // ==========================================
 elseif ($accion === 'avanzar_etapa_3') {
-    $prospecto_id = filter_var($_POST['prospecto_id'], FILTER_VALIDATE_INT);
-    $rut = trim($_POST['rut']);
-    $genero = $_POST['genero'];
-    $fecha_nac = $_POST['fecha_nacimiento'];
+    $prospecto_id = filter_var($_POST['prospecto_id'] ?? '', FILTER_VALIDATE_INT);
+        $rut = trim($_POST['rut'] ?? '');
+        $genero = trim($_POST['genero'] ?? '');
+        $fecha_nac = trim($_POST['fecha_nacimiento'] ?? '');
 
-    if (!$prospecto_id || empty($rut) || empty($genero) || empty($fecha_nac)) {
-        die("Error de validación.");
-    }
+        if (!$prospecto_id || empty($rut) || empty($genero) || empty($fecha_nac)) {
+            die("Error de validación: Datos de la cita incompletos.");
+        }
 
     try {
         $db->beginTransaction();
@@ -97,8 +101,8 @@ elseif ($accion === 'avanzar_etapa_3') {
 // DE ETAPA 3 A ETAPA 4 (Cerrar Venta y Referidos)
 // ==========================================
 elseif ($accion === 'cerrar_venta') {
-    $prospecto_id = filter_var($_POST['prospecto_id'], FILTER_VALIDATE_INT);
-    $catalogo_id = filter_var($_POST['catalogo_id'], FILTER_VALIDATE_INT);
+    $prospecto_id = filter_var($_POST['prospecto_id'] ?? '', FILTER_VALIDATE_INT);
+        $catalogo_id = filter_var($_POST['catalogo_id'] ?? '', FILTER_VALIDATE_INT);
 
     if (!$prospecto_id || !$catalogo_id) {
         die("Faltan datos de la venta.");
@@ -148,9 +152,10 @@ elseif ($accion === 'cerrar_venta') {
         $db->prepare("UPDATE prospectos SET etapa = 4 WHERE id = :id")->execute([':id' => $prospecto_id]);
 
         // 4. Ciclo Infinito de Ventas: Guardamos a los 3 referidos 
-        $ref_nombres = $_POST['ref_nombre'];
-        $ref_comunas = $_POST['ref_comuna'];
-        $ref_telefonos = $_POST['ref_telefono'];
+       // Aseguramos que se reciban como Arrays para evitar errores si vienen vacíos
+        $ref_nombres = $_POST['ref_nombre'] ?? [];
+        $ref_comunas = $_POST['ref_comuna'] ?? [];
+        $ref_telefonos = $_POST['ref_telefono'] ?? [];
 
         $query_ref = "INSERT INTO prospectos (vendedor_id, etapa, nombre, comuna, telefono) VALUES (:vendedor_id, 1, :nombre, :comuna, :telefono)";
         $stmt_ref = $db->prepare($query_ref);

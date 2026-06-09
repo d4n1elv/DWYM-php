@@ -1,78 +1,67 @@
 <?php
-// index.php - Login Simulado
-
-// 1. INICIAR SESIÓN: Esto es vital en PHP. Le dice al servidor que 
-// prepare un espacio en memoria para recordar datos del usuario mientras navega.
+// index.php
 session_start();
-
-// 2. Procesar el formulario cuando el usuario haga clic en "Ingresar"
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $rol_seleccionado = $_POST['rol'];
-    
-    // Guardamos el rol en la variable global $_SESSION
-    $_SESSION['rol'] = $rol_seleccionado;
-    
-    // Simulamos los datos del usuario dependiendo del rol
-    if ($rol_seleccionado === 'Administrador') {
-        $_SESSION['nombre_usuario'] = 'Admin Principal';
-        // Redirigimos al panel del administrador (que crearemos después)
-        header('Location: modules/admin/catalogo.php');
-        exit;
-    } else {
-        $_SESSION['nombre_usuario'] = 'Juan Vendedor';
-        // Redirigimos al panel del vendedor (que crearemos después)
-        header('Location: modules/vendedor/dashboard.php');
-        exit;
-    }
+if (isset($_SESSION['rol'])) {
+    // Si ya tiene sesión, lo pateamos a su dashboard
+    $destino = ($_SESSION['rol'] === 'Administrador') ? 'modules/admin/catalogo.php' : 'modules/vendedor/prospectos.php';
+    header('Location: ' . $destino);
+    exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - CRM Funeraria</title>
-    <link rel="stylesheet" href="./assets/css/adminlte.css" />
+    <title>Login - CRM Funeraria UDP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
     <style>
-        /* Un poco de CSS personalizado para centrar el login en la pantalla */
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f4f6f9; /* Color de fondo típico de AdminLTE */
-        }
-        .login-box {
-            width: 400px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        body { background-color: #f4f6f9; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .login-card { width: 100%; max-width: 400px; border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .login-header { background-color: #63a388; color: white; border-radius: 10px 10px 0 0; padding: 20px; text-align: center; }
+        .btn-custom { background-color: #63a388; border: none; color: white; }
+        .btn-custom:hover { background-color: #4b826a; color: white; }
     </style>
 </head>
 <body>
 
-    <div class="login-box text-center">
-        <h2 class="mb-4"><b>CRM</b> Ventas</h2>
-        <p class="text-muted">Simulador de Ingreso</p>
+<div class="card login-card">
+    <div class="login-header">
+        <h4><i class="bi bi-shield-lock-fill me-2"></i>CRM Funeraria UDP</h4>
+        <p class="mb-0 text-white-50">Acceso a Sistema Interno</p>
+    </div>
+    <div class="card-body p-4">
+        
+        <?php if(isset($_GET['error'])): ?>
+            <div class="alert alert-danger py-2 text-center">
+                <?php 
+                    if($_GET['error'] === 'vacios') echo "Ingresa tus credenciales.";
+                    elseif($_GET['error'] === 'credenciales') echo "Usuario o contraseña incorrectos.";
+                    elseif($_GET['error'] === 'inactivo') echo "Cuenta suspendida.";
+                ?>
+            </div>
+        <?php endif; ?>
 
-        <form method="POST" action="">
+        <form action="login_action.php" method="POST">
             <div class="mb-3">
-                <label for="rol" class="form-label">Selecciona tu Perfil:</label>
-                <select name="rol" id="rol" class="form-select form-select-lg" required>
-                    <option value="" disabled selected>-- Elige un rol --</option>
-                    <option value="Administrador">Administrador</option>
-                    <option value="Vendedor">Vendedor</option>
-                </select>
+                <label class="form-label fw-bold">RUT</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-vcard"></i></span>
+                    <input type="text" class="form-control" name="rut" placeholder="Ej: 11.111.111-9" required>
+                </div>
             </div>
-            
-            <div class="d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-primary btn-lg">Ingresar al Sistema</button>
+            <div class="mb-4">
+                <label class="form-label fw-bold">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
             </div>
+            <button type="submit" class="btn btn-primary w-100 fw-bold py-2" style="background-color: #273752; border:none;">Ingresar al CRM</button>
         </form>
     </div>
+</div>
 
 </body>
 </html>

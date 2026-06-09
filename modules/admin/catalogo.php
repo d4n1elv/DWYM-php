@@ -35,6 +35,22 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     <div class="app-content">
         <div class="container-fluid">
+
+            <?php if (isset($_GET['error'])): ?>
+                <?php if ($_GET['error'] === 'datos_vacios'): ?>
+                    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                        <i class="bi bi-exclamation-octagon-fill me-2"></i>
+                        <strong>¡Error!</strong> El nombre del ítem no puede estar vacío ni contener solo espacios.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php elseif ($_GET['error'] === 'precio_invalido'): ?>
+                    <div class="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
+                        <i class="bi bi-cash-coin me-2"></i>
+                        <strong>¡Precio irreal!</strong> Por favor ingresa un valor numérico válido mayor a 0 y menor a 99 millones.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
             <div class="card">
                 <div class="card-body">
                     <table class="table table-hover align-middle">
