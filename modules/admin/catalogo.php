@@ -191,7 +191,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-md-4">
                     <label class="form-label">Valor Actual ($)</label>
                     <input type="number" step="0.01" class="form-control" name="precio_nuevo" id="edit_precio" required>
-                    <small class="text-muted">Si cambias el valor, se generará un nuevo registro histórico[cite: 50, 54].</small>
+                    <small class="text-muted">Si cambias el valor, se generará un nuevo registro histórico.</small>
                 </div>
             </div>
           </div>

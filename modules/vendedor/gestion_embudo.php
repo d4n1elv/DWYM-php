@@ -87,7 +87,7 @@ $etapa_actual = $prospecto['etapa'];
                             
                             <?php if($etapa_actual == 1): ?>
                                 <h5><i class="bi bi-calendar-plus"></i> Agendar Reunión (Avanzar a Etapa 2)</h5>
-                                [cite_start]<p class="text-muted">Para agendar, debes solicitar el correo electrónico del cliente [cite: 17-18].</p>
+                                [cite_start]<p class="text-muted">Para agendar, debes solicitar el correo electrónico del cliente.</p>
                                 <form action="embudo_action.php" method="POST">
                                     <input type="hidden" name="accion" value="avanzar_etapa_2">
                                     <input type="hidden" name="prospecto_id" value="<?= $prospecto['id'] ?>">
@@ -108,7 +108,7 @@ $etapa_actual = $prospecto['etapa'];
 
                             <?php elseif($etapa_actual == 2): ?>
                                 <h5><i class="bi bi-people-fill"></i> Concretar Cita (Avanzar a Etapa 3)</h5>
-                                <p class="text-muted">La reunión fue agendada. [cite_start]Para marcarla como realizada, exige los datos duros [cite: 19-20].</p>
+                                <p class="text-muted">La reunión fue agendada. Para marcarla como realizada, exige los datos duros.</p>
                                 <form action="embudo_action.php" method="POST">
                                     <input type="hidden" name="accion" value="avanzar_etapa_3">
                                     <input type="hidden" name="prospecto_id" value="<?= $prospecto['id'] ?>">
@@ -138,7 +138,7 @@ $etapa_actual = $prospecto['etapa'];
 
                             <?php elseif($etapa_actual == 3): ?>
                                 <h5><i class="bi bi-cash-coin"></i> Cerrar Venta (Etapa Final)</h5>
-                                [cite_start]<p class="text-muted">Sube el documento, elige el producto y registra los 3 referidos obligatorios [cite: 21-24].</p>
+                                [cite_start]<p class="text-muted">Sube el documento, elige el producto y registra los 3 referidos obligatorios </p>
                                 <?php 
                                 $stmt_cat = $db->query("SELECT c.id, c.nombre, p.precio FROM catalogo c JOIN catalogo_precios p ON c.id = p.catalogo_id WHERE c.estado = 'Activo' AND p.id = (SELECT MAX(id) FROM catalogo_precios WHERE catalogo_id = c.id)");
                                 $catalogo_items = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
@@ -164,7 +164,7 @@ $etapa_actual = $prospecto['etapa'];
                                     </div>
 
                                     <hr>
-                                    [cite_start]<h6 class="fw-bold text-primary"><i class="bi bi-person-lines-fill"></i> 3 Referidos Obligatorios [cite: 24]</h6>
+                                    [cite_start]<h6 class="fw-bold text-primary"><i class="bi bi-person-lines-fill"></i> 3 Referidos Obligatorios.</h6>
                                     <?php for($i = 1; $i <= 3; $i++): ?>
                                     <div class="row g-2 mb-2">
                                         <div class="col-md-4">

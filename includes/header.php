@@ -98,11 +98,11 @@ if (!isset($_SESSION['rol'])) {
                     Hola, <?= htmlspecialchars($_SESSION['nombre'] ?? 'Usuario') ?>
                 </span>
             </li>
-            <li class="nav-item">
-                <a href="/DWYM-php/logout.php" class="nav-link text-danger fw-bold">
-                    <i class="bi bi-box-arrow-right"></i> Salir
-                </a>
-            </li>
+            <li class="nav-item d-flex align-items-center ms-3">
+    <a href="/DWYM-php/logout.php" class="btn btn-outline-danger btn-sm fw-bold px-3">
+        <i class="bi bi-box-arrow-right"></i> Salir
+    </a>
+</li>
         </ul>
     </div>
 </nav>

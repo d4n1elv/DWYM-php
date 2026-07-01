@@ -19,7 +19,7 @@ foreach($stmt_admin->fetchAll(PDO::FETCH_ASSOC) as $m) {
     $metas_admin[$m['etapa']] = $m;
 }
 
-// 2. Traemos las metas personalizadas del Vendedor (Prioridad) [cite: 75-79]
+// 2. Traemos las metas personalizadas del Vendedor (Prioridad) 
 $stmt_vend = $db->prepare("SELECT * FROM metas_vendedor WHERE vendedor_id = :id");
 $stmt_vend->execute([':id' => $vendedor_id]);
 $metas_vend = [];

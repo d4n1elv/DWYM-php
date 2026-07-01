@@ -39,7 +39,7 @@ $nombres_etapas = [
     <div class="app-content-header">
         <div class="container-fluid">
             <h3 class="mb-0">Mis Semáforos Personalizados</h3>
-            <p class="text-muted">Ajusta tus propios umbrales de rendimiento. [cite_start]Esta configuración sobrescribirá la vista corporativa solo para ti [cite: 73-79].</p>
+            <p class="text-muted">Ajusta tus propios umbrales de rendimiento (Esta configuración sobrescribirá la vista corporativa solo para ti).</p>
         </div>
     </div>
     

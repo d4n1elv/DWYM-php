@@ -1,9 +1,9 @@
 #DWYM-php
-Desarrollo guev kon PE ASHE PE
+Desarrollo web con .PHP
 
-mi guasho, teni ke instalar
+Requerimientos
 
-- git bash
+- git bash (solo para avances)
 - VSCode
 - Xampp
 

@@ -122,7 +122,7 @@ elseif ($accion === 'editar') {
             ':id' => $id
         ]);
 
-        // 2. Histórico de precios (Solo si cambió el valor) [cite: 47-51]
+        // 2. Histórico de precios (Solo si cambió el valor)
         if ($precio_nuevo != $precio_actual_db) {
             $query_precio = "INSERT INTO catalogo_precios (catalogo_id, precio) VALUES (:catalogo_id, :precio)";
             $stmt_precio = $db->prepare($query_precio);

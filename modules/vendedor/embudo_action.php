@@ -137,7 +137,7 @@ elseif ($accion === 'cerrar_venta') {
         $stmt_precio->execute([':id' => $catalogo_id]);
         $precio_congelado = $stmt_precio->fetchColumn();
 
-        // 2. Insertamos el contrato en la tabla ventas [cite: 21-23]
+        // 2. Insertamos el contrato en la tabla ventas 
         $query_venta = "INSERT INTO ventas (prospecto_id, catalogo_id, precio_congelado, documento_ruta) 
                         VALUES (:prospecto_id, :catalogo_id, :precio_congelado, :documento_ruta)";
         $stmt_venta = $db->prepare($query_venta);
